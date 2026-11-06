@@ -60,6 +60,150 @@ Goal: be able to explain to a colleague what an LLM is and where it fits within 
 
 - [ ] I can explain the difference between AI, ML, Deep Learning and LLMs
 
+### Quiz — Phase 1 fundamentals
+
+Answer each question before expanding the answer.
+
+**1. Which option correctly describes the relationship between these terms?**
+
+- A) AI ⊃ Machine Learning ⊃ Deep Learning ⊃ LLMs
+- B) Machine Learning ⊃ AI ⊃ Deep Learning ⊃ LLMs
+- C) Deep Learning ⊃ Machine Learning ⊃ AI ⊃ LLMs
+- D) LLMs ⊃ Deep Learning ⊃ Machine Learning ⊃ AI
+
+<details>
+<summary>Answer</summary>
+
+**A** — AI is the broadest field. Machine Learning is the part of AI that learns from data, Deep Learning is ML with deep neural networks, and LLMs are one kind of Deep Learning model.
+
+</details>
+
+**2. A model learns to flag emails as spam from thousands of emails that were already labeled. What type of learning is this?**
+
+- A) Unsupervised
+- B) Supervised
+- C) Reinforcement
+- D) Generative
+
+<details>
+<summary>Answer</summary>
+
+**B** — Supervised learning uses examples that come with the right answer (the "spam" / "not spam" label) so the model can predict labels for new data.
+
+</details>
+
+**3. Grouping customers by purchasing behavior, without knowing in advance which groups exist, is an example of:**
+
+- A) Supervised learning
+- B) Reinforcement learning
+- C) Unsupervised learning
+- D) Fine-tuning
+
+<details>
+<summary>Answer</summary>
+
+**C** — Unsupervised learning has no labels: the model finds structure on its own, as in clustering algorithms.
+
+</details>
+
+**4. An agent learns to play chess by gaining points when it wins and losing points when it loses. What type of learning is this?**
+
+- A) Supervised
+- B) Unsupervised
+- C) Reinforcement
+- D) Transfer
+
+<details>
+<summary>Answer</summary>
+
+**C** — In reinforcement learning, an agent acts in an environment and learns from rewards and penalties, without labeled examples of each correct move.
+
+</details>
+
+**5. What are a model's parameters (or weights)?**
+
+- A) The settings a user picks when calling the API, such as temperature
+- B) The internal numbers tuned during training that define the model's behavior
+- C) Rules written by hand by engineers
+- D) The documents used for training
+
+<details>
+<summary>Answer</summary>
+
+**B** — Parameters are the numeric values that training adjusts; an LLM has billions of them. Temperature is an inference setting, a different concept.
+
+</details>
+
+**6. What is the difference between training and inference?**
+
+- A) Training adjusts the weights and is expensive; inference uses the finished model to produce outputs
+- B) Training happens on every user request; inference happens only once
+- C) They are the same thing with different names
+- D) Inference adjusts the weights; training only reads data
+
+<details>
+<summary>Answer</summary>
+
+**A** — Training runs once (or a few times) with lots of data and compute. Every time you use a chat assistant you are running inference: the weights do not change.
+
+</details>
+
+**7. What role does gradient descent play when training a neural network?**
+
+- A) Splitting text into tokens
+- B) Gradually adjusting the weights in the direction that reduces the error
+- C) Choosing the network architecture
+- D) Generating the final answer for the user
+
+<details>
+<summary>Answer</summary>
+
+**B** — Gradient descent works out which way each weight should move to lower the loss function (the error) and takes small steps in that direction, over and over.
+
+</details>
+
+**8. What does backpropagation compute?**
+
+- A) How much each weight contributed to the error, propagating the error from the output back through earlier layers
+- B) The next word of the answer
+- C) How many layers the network should have
+- D) The similarity between two texts
+
+<details>
+<summary>Answer</summary>
+
+**A** — Backpropagation computes the gradients: each weight's share of the error, from the last layer to the first. Gradient descent then uses those gradients to update the weights.
+
+</details>
+
+**9. A model scores 99% on its training data but only 60% on new data. What is the most likely problem?**
+
+- A) Underfitting
+- B) Overfitting
+- C) Missing inference parameters
+- D) Hallucination
+
+<details>
+<summary>Answer</summary>
+
+**B** — Overfitting means the model memorized the training data instead of learning the general pattern. That is why a separate test set is used: to measure performance on data the model has never seen.
+
+</details>
+
+**10. What does it mean for a model to be "open weights"?**
+
+- A) Anyone can use it for free through the lab's API
+- B) The trained weights are published, so you can download and run the model on your own hardware
+- C) The training code and data are all public
+- D) The model has no safety filters
+
+<details>
+<summary>Answer</summary>
+
+**B** — Open weights means the weights are available for download (e.g. Llama, Qwen). It does not guarantee that the training data or code are open. Closed models are only available through an API.
+
+</details>
+
 ## Phase 2 — How LLMs work under the hood (weeks 3 to 5)
 
 Goal: understand why Claude answers, fails and costs what it does. This phase changes how you use the tool the most.
