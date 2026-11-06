@@ -27,7 +27,7 @@ You already know backend, APIs and databases, and most real AI work is software 
 
 - **Every phase ends with a small project.** The projects add up to a single system.
 - **Do Phases 1 to 3 in order;** Phases 4 to 7 can be reordered to match your work.
-- **Use Claude as a tutor:** explain a concept in your own words and ask it to correct you.
+- **Use Claude as a tutor:** after each topic, ask it to quiz you and explain what you got wrong.
 
 ## Schedule
 
@@ -56,7 +56,7 @@ Goal: be able to explain to a colleague what an LLM is and where it fits within 
 - **Neural networks, intuitively:** layers, gradient descent and backpropagation, no calculus.
 - **The landscape:** the main labs and the difference between closed and open-weights models.
 
-**Practice:** watch 3Blue1Brown's neural network series, write a one-page summary and ask Claude for 10 questions about it.
+**Practice:** watch 3Blue1Brown's neural network series, then ask Claude for a 10-question quiz on it and review the ones you miss.
 
 - [ ] I can explain the difference between AI, ML, Deep Learning and LLMs
 
@@ -121,7 +121,7 @@ Goal: make the model answer from **your** data without training anything. RAG (*
 - **Hybrid search and reranking:** combining vector and keyword search, then reordering results.
 - **When not to use RAG:** if the documents fit in the context window, sometimes sending them whole is enough.
 
-**Project:** an "ask the docs" service with Spring AI and pgvector over your team's READMEs and ADRs, citing the source file. Write 20 questions with known answers and measure how many it gets right.
+**Project:** an "ask the docs" service with Spring AI and pgvector over your team's READMEs and ADRs, citing the source file. Ask Claude to generate 20 questions with known answers from those docs, skim them for accuracy, and measure how many your system gets right.
 
 - [ ] I have a RAG system on pgvector and can measure its accuracy
 
