@@ -204,6 +204,150 @@ Answer each question before expanding the answer.
 
 </details>
 
+### Intermediate quiz — Phase 1
+
+Same format as above, with trickier options. Answer each question before expanding the answer.
+
+**1. What does an artificial neuron compute?**
+
+- A) Sums the inputs, multiplies the total by a single weight and applies the activation
+- B) Multiplies each input by a weight and returns the largest one, with no bias
+- C) Multiplies each input by a weight, sums everything with a bias and applies the activation
+- D) Applies the activation to each input, then takes the weighted average using the weights
+
+<details>
+<summary>Answer</summary>
+
+**C** — Each input has its own weight; the weighted sum gets the bias added and only then goes through the activation. A single weight for all inputs would make it impossible to give each input a different importance.
+
+</details>
+
+**2. What is the main reason to use activation functions such as ReLU between layers?**
+
+- A) To normalize outputs so they always fall between 0 and 1
+- B) To reduce overfitting by switching off some neurons during training
+- C) To guarantee that gradients never become too small during training
+- D) To let the network represent non-linear relationships between input and output
+
+<details>
+<summary>Answer</summary>
+
+**D** — Without activations, several layers collapse into a single linear computation. Squashing outputs into 0–1 is something only the sigmoid does (ReLU does not), and switching off neurons is dropout.
+
+</details>
+
+**3. What is the role of the loss function in training?**
+
+- A) To measure the model's final accuracy on the test set
+- B) To turn the prediction error into a number that training tries to minimize
+- C) To compute, for each weight, which direction it should move
+- D) To set the size of each weight-update step
+
+<details>
+<summary>Answer</summary>
+
+**B** — The loss says how wrong the model is. The direction of each update comes from the gradients (backpropagation), and the step size is the learning rate.
+
+</details>
+
+**4. What usually happens when the learning rate is too small?**
+
+- A) The loss oscillates and may diverge because updates overshoot the optimum
+- B) The gradients get smaller, causing vanishing gradients
+- C) The loss decreases steadily but so slowly that training may stop before reaching a good result
+- D) The model memorizes the training data faster and starts overfitting
+
+<details>
+<summary>Answer</summary>
+
+**C** — The learning rate is the step size. Steps that are too small mean slow progress; oscillating and diverging are symptoms of steps that are too large. Vanishing gradients depend on the architecture, not on the learning rate.
+
+</details>
+
+**5. What is the difference between a parameter and a hyperparameter?**
+
+- A) Parameters are set before training; hyperparameters are adjusted by gradient descent
+- B) Weights are parameters and the bias is a hyperparameter, because it stays fixed during training
+- C) Hyperparameters are the parameters of the last layers, which control the output
+- D) Parameters are learned during training; hyperparameters are chosen beforehand, like the learning rate
+
+<details>
+<summary>Answer</summary>
+
+**D** — Weights and biases are parameters: training finds their values (the bias is learned too). Learning rate, number of layers and number of epochs are hyperparameters that you set.
+
+</details>
+
+**6. A model performs poorly on both the training data and the test data. What is the most likely diagnosis?**
+
+- A) Overfitting: the model memorized the training data and does not generalize
+- B) Underfitting: the model is too simple or was not trained enough
+- C) Data leakage: information from the test set leaked into training
+- D) High variance: the model reacts too strongly to small changes in the data
+
+<details>
+<summary>Answer</summary>
+
+**B** — Overfitting and high variance show up as great on training data and poor on test data. Data leakage makes the test results look too good. Poor on both means the model never learned the pattern.
+
+</details>
+
+**7. Why split data into training, validation and test sets instead of just training and test?**
+
+- A) To have a second training set and increase the amount of data
+- B) To measure final performance on the validation set and use the test set to tune hyperparameters
+- C) To tune hyperparameters on the validation set and keep the test set only for the final measurement
+- D) To compute the loss, which cannot be computed on the training set
+
+<details>
+<summary>Answer</summary>
+
+**C** — Once you tune a model by looking at a dataset, that dataset no longer measures performance on truly new data. Decisions go to the validation set and the test set is saved for the end. The option with the roles swapped is the classic mistake.
+
+</details>
+
+**8. In a fraud detection system, 95% of transactions are legitimate. A model that always predicts "legitimate" reaches 95% accuracy. What does this show?**
+
+- A) The model is overfitting because it memorized the most common class
+- B) The model has high recall because it never misses a legitimate transaction
+- C) The model is reasonable but needs more fraud examples to get past 95%
+- D) Accuracy is misleading with imbalanced classes: the model catches no fraud at all
+
+<details>
+<summary>Answer</summary>
+
+**D** — Recall for the fraud class is 0%: not a single real fraud was detected. The high accuracy comes entirely from the majority class. The model is not reasonable; it is useless for its purpose.
+
+</details>
+
+**9. What does the "7B" in a model name like "Llama 7B" indicate?**
+
+- A) About 7 billion tokens used for training
+- B) About 7 billion parameters
+- C) About 7 billion neurons
+- D) About 7 GB of model file size
+
+<details>
+<summary>Answer</summary>
+
+**B** — The number counts parameters (weights and biases), not neurons: each neuron has many weights. Models of this size are trained on trillions of tokens, and in FP16 the file would be around 14 GB.
+
+</details>
+
+**10. A model trained mostly on English text performs worse in Portuguese. Which concept explains this?**
+
+- A) Training data bias: underrepresented languages are learned less well
+- B) Tokenization: the tokenizer cannot represent accented characters, so the model loses information
+- C) Context window: secondary languages get a smaller window during inference
+- D) Overfitting: the model memorized English and therefore forgot other languages
+
+<details>
+<summary>Answer</summary>
+
+**A** — A model learns what is in its data, in the proportion it appears. Modern tokenizers handle accented characters fine, and the context window does not change by language.
+
+</details>
+
 ## Phase 2 — How LLMs work under the hood (weeks 3 to 5)
 
 Goal: understand why Claude answers, fails and costs what it does. This phase changes how you use the tool the most.
