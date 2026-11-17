@@ -5,3 +5,4 @@ Small Java programs that make the concepts from Phase 2 concrete. Each folder ha
 | # | Experiment | Concept |
 | --- | --- | --- |
 | 01 | [Tokens](01-tokens/) | Tokenization and cost |
+| 02 | [Bigram model](02-bigram/) | Next-token prediction and temperature |
