@@ -361,6 +361,8 @@ Goal: understand why Claude answers, fails and costs what it does. This phase ch
 
 **Practice:** watch Andrej Karpathy's *Intro to Large Language Models* and run a snippet of Java code through an online tokenizer.
 
+**Experiments:** hands-on Java programs for this phase live in [`phase-2/`](phase-2/).
+
 - [ ] I can explain tokens, embeddings and attention, and why models hallucinate
 
 ## Phase 3 — Using LLMs as an engineer (weeks 6 to 9)
