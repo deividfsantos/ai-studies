@@ -10,23 +10,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Counts how many tokens different kinds of text use, with the
- * Anthropic API's count_tokens endpoint (free to call).
+ * Counts how many tokens different kinds of text use, with a local model running in Ollama.
+ * Ollama reports how many prompt tokens the model read in "prompt_eval_count".
  *
- * Run: ANTHROPIC_API_KEY=... java TokenCounter.java
+ * Run: java TokenCounter.java   (Ollama must be running, see README)
  */
 public class TokenCounter {
 
-    private static final String API_URL = "https://api.anthropic.com/v1/messages/count_tokens";
-    private static final String MODEL = System.getenv().getOrDefault("MODEL", "claude-sonnet-5-5");
+    private static final String OLLAMA_URL = System.getenv().getOrDefault("OLLAMA_URL", "http://localhost:11434");
+    private static final String MODEL = System.getenv().getOrDefault("MODEL", "llama3.2");
 
     public static void main(String[] args) throws Exception {
-        String apiKey = System.getenv("ANTHROPIC_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            System.err.println("Set the ANTHROPIC_API_KEY environment variable first.");
-            System.exit(1);
-        }
-
         Map<String, String> samples = new LinkedHashMap<>();
         samples.put("English sentence",
                 "The payment service is down because the database connection pool is exhausted.");
@@ -48,12 +42,12 @@ public class TokenCounter {
         HttpClient client = HttpClient.newHttpClient();
         StringBuilder results = new StringBuilder();
         results.append("# Token counting results\n\n");
-        results.append("Model: `").append(MODEL).append("`\n\n");
+        results.append("Model: `").append(MODEL).append("` (local, via Ollama)\n\n");
         results.append("| Sample | Characters | Tokens | Characters per token |\n");
         results.append("| --- | --- | --- | --- |\n");
 
         for (Map.Entry<String, String> sample : samples.entrySet()) {
-            int tokens = countTokens(client, apiKey, sample.getValue());
+            int tokens = countTokens(client, sample.getValue());
             int chars = sample.getValue().length();
             String ratio = String.format("%.2f", (double) chars / tokens);
             System.out.printf("%-36s %5d chars  %4d tokens  %s chars/token%n",
@@ -62,29 +56,29 @@ public class TokenCounter {
                     .append(" | ").append(tokens).append(" | ").append(ratio).append(" |\n");
         }
 
-        results.append("\nNote: the count includes a few tokens of message formatting overhead.\n");
+        results.append("\nNote: each model has its own tokenizer, so other models give different counts.\n");
         Files.writeString(Path.of("RESULTS.md"), results.toString());
         System.out.println("\nResults written to RESULTS.md");
     }
 
-    private static int countTokens(HttpClient client, String apiKey, String text) throws Exception {
+    private static int countTokens(HttpClient client, String text) throws Exception {
+        // raw = true sends the text as-is, without the chat template adding extra tokens.
+        // num_predict = 1 stops right away: we only care about the prompt.
         String body = """
-                {"model": "%s", "messages": [{"role": "user", "content": "%s"}]}"""
+                {"model": "%s", "prompt": "%s", "raw": true, "stream": false, "options": {"num_predict": 1}}"""
                 .formatted(MODEL, escapeJson(text));
 
-        HttpRequest request = HttpRequest.newBuilder(URI.create(API_URL))
-                .header("x-api-key", apiKey)
-                .header("anthropic-version", "2023-06-01")
+        HttpRequest request = HttpRequest.newBuilder(URI.create(OLLAMA_URL + "/api/generate"))
                 .header("content-type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            throw new IllegalStateException("API error " + response.statusCode() + ": " + response.body());
+            throw new IllegalStateException("Ollama error " + response.statusCode() + ": " + response.body());
         }
 
-        Matcher matcher = Pattern.compile("\"input_tokens\"\\s*:\\s*(\\d+)").matcher(response.body());
+        Matcher matcher = Pattern.compile("\"prompt_eval_count\"\\s*:\\s*(\\d+)").matcher(response.body());
         if (!matcher.find()) {
             throw new IllegalStateException("Unexpected response: " + response.body());
         }
